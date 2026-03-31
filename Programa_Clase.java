@@ -601,9 +601,7 @@ public class Programa_Clase {
             if (linea == null) continue;
             try {
                 numero = Integer.parseInt(linea.trim());
-            } catch (NumberFormatException e) {
-                print(FG_RED + "  ERROR: Introduce un numero entero valido." + RESET);
-            }
+            } catch (NumberFormatException e) {}
         } while (numero == null);
         return numero;
     }
