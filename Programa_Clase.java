@@ -141,11 +141,11 @@ public class Programa_Clase {
                 case 2:
                     int[] datos2 = getDatos();
                     if (datos2 == null) break;
-                    String semStr = pedirInput("Semanas del Curso: ");
-                    if (semStr == null) break;
-                    String porStr = pedirInput("Porcentaje Asistencia: ");
-                    if (porStr == null) break;
-                    mostrarMensaje(alumnos.get(datos2[0]).getAsignaturas().get(datos2[1]).calcularFaltas(Integer.parseInt(semStr), Integer.parseInt(porStr)));
+                    Integer sem = pedirInt("Semanas del Curso: ");
+                    if (sem == null) break;
+                    Integer por = pedirInt("Porcentaje Asistencia: ");
+                    if (por == null) break;
+                    mostrarMensaje(alumnos.get(datos2[0]).getAsignaturas().get(datos2[1]).calcularFaltas(sem, por));
                     break;
                 case 3: case -1: return;
             }
@@ -271,30 +271,19 @@ public class Programa_Clase {
         if (nombre == null) {
             return;
         }
-        String horasStr = pedirInput("Horas a la Semana: ");
-        if (horasStr == null) {
-            return;
-        }
-        int horas_semana = Integer.parseInt(horasStr);
-        String pExStr = pedirInput("Porcentaje del Examen: ");
-        if (pExStr == null) {
-            return;
-        }
-        int porcentaje_examen = Integer.parseInt(pExStr);
-        String pPrStr = pedirInput("Porcentaje del Practicas: ");
-        if (pPrStr == null) {
-            return;
-        }
-        int porcentaje_practicas = Integer.parseInt(pPrStr);
+        Integer horas_semana = pedirInt("Horas a la Semana: ");
+        if (horas_semana == null) return;
+        Integer porcentaje_examen = pedirInt("Porcentaje del Examen: ");
+        if (porcentaje_examen == null) return;
+        Integer porcentaje_practicas = pedirInt("Porcentaje del Practicas: ");
+        if (porcentaje_practicas == null) return;
         int porcentaje_adicional = 0;
         String[] opAdicional = { "  Si", "  No" };
         int selAd = mostrarMenu("ADICIONAL", "Porcentaje Adicional?", opAdicional);
         if (selAd == 0) {
-            String pAdStr = pedirInput("Porcentaje Adicional: ");
-            if (pAdStr == null) {
-                return;
-            }
-            porcentaje_adicional = Integer.parseInt(pAdStr);
+            Integer pAd = pedirInt("Porcentaje Adicional: ");
+            if (pAd == null) return;
+            porcentaje_adicional = pAd;
         }
         asignaturas.add(new Asignaturas(nombre, horas_semana, porcentaje_examen, porcentaje_practicas, porcentaje_adicional));
         DatabaseManager.guardarTodo(alumnos, asignaturas);
@@ -605,7 +594,21 @@ public class Programa_Clase {
         return (sel == lista.size() || sel == -1) ? -1 : sel;
     }
 
-    static String pedirInput(String prompt) throws Exception {
+    static Integer pedirInt(String prompt) throws Exception {
+        Integer numero = null;
+        do {
+            String linea = pedirInput(prompt);
+            if (linea == null) continue;
+            try {
+                numero = Integer.parseInt(linea.trim());
+            } catch (NumberFormatException e) {
+                print(FG_RED + "  ERROR: Introduce un numero entero valido." + RESET);
+            }
+        } while (numero == null);
+        return numero;
+    }
+
+        static String pedirInput(String prompt) throws Exception {
         clearScreen();
         cabecera("ENTRADA DE DATOS");
         print(FG_CYAN + "  " + prompt + RESET);
@@ -659,4 +662,5 @@ public class Programa_Clase {
         terminal.enterRawMode();
         terminal.reader().read();
     }
+
 }
