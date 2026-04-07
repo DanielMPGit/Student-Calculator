@@ -238,7 +238,8 @@ public class Programa_Clase {
             mostrarMensaje("No se ha encontrado la asignatura.");
             return null;
         }
-        String notaStr = pedirInput("Nota: ");
+        Double notaDouble = pedirDouble("Nota: ");
+        String notaStr = String.valueOf(notaDouble);
         if (notaStr == null) {
             return null;
         }
@@ -605,6 +606,19 @@ public class Programa_Clase {
         } while (numero == null);
         return numero;
     }
+    
+    static Double pedirDouble(String prompt) throws Exception {
+        Double numero = null;
+        do {
+            String linea = pedirInput(prompt);
+            if (linea == null) continue;
+            try {
+                numero = Double.parseDouble(linea.trim());
+            } catch (NumberFormatException e) {}
+        } while (numero == null);
+        return numero;
+    }
+    
 
         static String pedirInput(String prompt) throws Exception {
         clearScreen();
