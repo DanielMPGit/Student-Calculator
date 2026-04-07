@@ -85,7 +85,7 @@ public class Programa_Clase {
                 case 2: añadirNota(); break;
                 case 3: asignarAsignatura(); break;
                 case 4:
-                    double[] datos4 = pedirAlumnoFaltas();
+                    int[] datos4 = pedirAlumnoFaltas();
                     if (datos4 == null) break;
                     alumnos.get((int) datos4[0]).getAsignaturas().get((int) datos4[1]).añadirFaltas((int) datos4[2]);
                     DatabaseManager.guardarTodo(alumnos, asignaturas);
@@ -112,7 +112,7 @@ public class Programa_Clase {
                 case 2: borrarNota(); break;
                 case 3: desasignarAsignatura(); break;
                 case 4:
-                    double[] datos4 = pedirAlumnoFaltas();
+                    int[] datos4 = pedirAlumnoFaltas();
                     if (datos4 == null) break;
                     alumnos.get((int) datos4[0]).getAsignaturas().get((int) datos4[1]).restarFaltas((int) datos4[2]);
                     DatabaseManager.guardarTodo(alumnos, asignaturas);
@@ -202,7 +202,7 @@ public class Programa_Clase {
         }
     }
 
-    public static double[] pedirAlumnoFaltas() throws Exception {
+    public static int[] pedirAlumnoFaltas() throws Exception {
         int alumno = seleccionarAlumno("Selecciona alumno");
         if (alumno == -1) {
             return null;
@@ -216,12 +216,13 @@ public class Programa_Clase {
             mostrarMensaje("No se ha encontrado la asignatura.");
             return null;
         }
-        String faltasStr = pedirInput("Faltas: ");
+        int faltasint = pedirInt("Faltas: ");
+        String faltasStr = String.valueOf(faltasint);
         if (faltasStr == null) {
             return null;
         }
-        double faltas = Double.parseDouble(faltasStr);
-        return new double[]{alumno, asignatura, faltas};
+        int faltas = Integer.parseInt(faltasStr);
+        return new int[]{alumno, asignatura, faltas};
     }
 
     public static double[] pedirAlumnoAsignaturaNota() throws Exception {
