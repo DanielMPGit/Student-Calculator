@@ -535,10 +535,10 @@ public class Programa_Clase {
     static int leerTeclaJLine() throws Exception {
         int c = terminal.reader().read();
         if (c == 27) {
-            int c2 = terminal.reader().read(50);
+            int c2 = terminal.reader().read(200);
             if (c2 == -1) return 3;
-            if (c2 == '[') {
-                int c3 = terminal.reader().read(50);
+            if (c2 == '[' || c2 == 'O') { 
+                int c3 = terminal.reader().read(200);
                 if (c3 == 'A') return 0;
                 if (c3 == 'B') return 1;
             }
